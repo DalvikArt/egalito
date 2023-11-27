@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cstdio>
 #include <vector>
+#include <sstream>
 
 #include "analysis/controlflow.h"
 #include "conductor/setup.h"
@@ -27,23 +28,25 @@ int main(int argc, char *argv[])
     auto main_module = *CIter::children(setup.getConductor()->getProgram()).begin();
 
     std::vector<Function *> funcList;
-            for(auto func : CIter::functions(main_module)) {
-                funcList.push_back(func);
-            }
+    for(auto func : CIter::functions(main_module)) 
+        funcList.push_back(func);
 
-            std::sort(funcList.begin(), funcList.end(),
-                [](Function *a, Function *b) {
-                    if(a->getAddress() < b->getAddress()) return true;
-                    if(a->getAddress() == b->getAddress()) {
-                        return a->getName() < b->getName();
-                    }
-                    return false;
-                });
+    std::sort(funcList.begin(), funcList.end(), [](Function *a, Function *b){
+        if(a->getAddress() < b->getAddress()) return true;
+        if(a->getAddress() == b->getAddress()) return a->getName() < b->getName();
+        return false;});
 
-            for(auto func : funcList) {
-                std::printf("0x%08lx 0x%08lx %s\n",
-                    func->getAddress(), func->getSize(), func->getName().c_str());
-            }
+    std::ostringstream oss;
+
+    for(auto func : funcList) 
+    {
+        oss << "0x" << std::hex() << std::setw(8) << std::setfill(0)
+
+        //std::printf("0x%08lx 0x%08lx %s\n",
+        //func->getAddress(), func->getSize(), func->getName().c_str());
+    }
+
+
 
     return 0;
 }
