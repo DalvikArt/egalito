@@ -2,6 +2,8 @@
 #include <cstdio>
 #include <vector>
 #include <sstream>
+#include <string>
+#include <iomanip>
 
 #include "analysis/controlflow.h"
 #include "conductor/setup.h"
@@ -40,13 +42,18 @@ int main(int argc, char *argv[])
 
     for(auto func : funcList) 
     {
-        oss << "0x" << std::hex() << std::setw(8) << std::setfill(0)
-
+        auto startAddr = func->getAddress();
+        auto endAddr = startAddr + func->getSize();
+        std::string functionName = func->getName(); 
+        oss << "0x" << std::hex << std::setw(8) << std::setfill('0') << startAddr
+            << " 0x" << std::hex << std::setw(8) << std::setfill('0') << endAddr
+            << " " << functionName << std::endl;
         //std::printf("0x%08lx 0x%08lx %s\n",
         //func->getAddress(), func->getSize(), func->getName().c_str());
     }
 
-
+    std::string finalStr = oss.str();
+    std::cout << finalStr << endl;
 
     return 0;
 }
