@@ -53,7 +53,7 @@ int main(int argc, char *argv[])
     }
 
     std::string finalStr = oss.str();
-    std::cout << finalStr << endl;
+    std::cout << finalStr << std::endl;
 
     return 0;
 }
