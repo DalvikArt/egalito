@@ -31,8 +31,10 @@ int main(int argc, char *argv[])
     ElfMap *elf = new ElfMap(binaryFile);
     auto section = elf->findSection(".text");
     if(section)
+    {
         textStartAddr = section->getVirtualAddress();
         textEndAddr = textStartAddr + section->getSize();
+    }
     else
     {
         std::cerr << "Failed to locate .text section for " << binaryFile << " !" << std::endl;
